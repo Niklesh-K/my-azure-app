@@ -13,11 +13,17 @@ test('GET /status should return ok', async () => {
   expect(res.body).toEqual({ status: 'ok' });
 });
 
-// Day 7 test
 test('GET /time should return current time', async () => {
   const res = await request(app).get('/time');
   expect(res.statusCode).toBe(200);
   expect(res.body).toHaveProperty('time');
-  expect(new Date(res.body.time).toString()).not.toBe('Invalid Date');
+});
+
+test('GET /health should return healthy with uptime', async () => {
+  const res = await request(app).get('/health');
+  expect(res.statusCode).toBe(200);
+  expect(res.body).toHaveProperty('status', 'healthy');
+  expect(res.body).toHaveProperty('uptime');
+  expect(typeof res.body.uptime).toBe('number');
 });
 

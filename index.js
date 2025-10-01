@@ -9,10 +9,17 @@ app.get('/', (req, res) => res.send(greeting));
 // Status endpoint
 app.get('/status', (req, res) => res.json({ status: 'ok' }));
 
-// Time endpoint (Day 7)
+// Time endpoint
 app.get('/time', (req, res) => {
-  const now = new Date().toISOString();
-  res.json({ time: now });
+  res.json({ time: new Date().toISOString() });
+});
+
+// Health endpoint (returns uptime + status)
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'healthy',
+    uptime: Number(process.uptime().toFixed(2)) // seconds, two decimals
+  });
 });
 
 if (require.main === module) {
